@@ -44,6 +44,11 @@ export const Localised = ({ children }: any) => {
 
   function remove(text: string) {
     const con = { ...contexts };
+
+    if (!con[text]) {
+      throw new Error(`Attempted to remove non-existing locale ${text}`);
+    }
+
     delete con[text];
     setContexts(con);
   }
