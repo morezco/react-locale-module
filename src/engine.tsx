@@ -1,61 +1,136 @@
-import React, { useState } from "react";
-import { Dictionary, Locale } from "./constants";
+import React, { useState, useCallback } from "react";
+
+import { AddThrough } from "./helpers";
+
+import {
+  Dictionary,
+  Locale,
+  Log,
+  History,
+  ContextCollection
+} from "./constants";
 
 export const Localised = ({ children }: any) => {
-  const [language, setLanguage] = useState("en");
-  const [languages, setLanguages] = useState(["en"]);
-  const [contexts, setContexts] = useState({});
+  const [language, setLanguage] = useState<string>("en");
+  const [languages, setLanguages] = useState<Array<string>>(["en"]);
+  const [contexts, setContexts] = useState<ContextCollection>({});
+  const [history, setHistory] = useState<History>([]);
 
-  function set(lang: string) {
-    if (languages.includes(lang)) {
-      setLanguage(lang);
-    } else {
-      throw new Error(`Attempted to set non-defined language "${lang}"`);
-    }
-  }
+  const log = useCallback(AddThrough(setHistory), [setHistory]);
 
-  function switchl() {
-    if (languages.length > 1) {
-      const current = languages.indexOf(language);
-      setLanguage(
-        languages[current + 1 === languages.length ? 0 : current + 1]
-      );
-    }
-  }
+  const set = useCallback(
+    (agent: string) => (lang: string) => {
+      let event: Log = {
+        agent,
+        event: `set language to ${lang}`,
+        type: "info",
+        timestamp: new Date(),
+        success: false
+      };
 
-  function add(context: string, dictionary: Dictionary) {
-    let newLanguages: Array<string> = [];
+      event.success = languages.includes(lang);
+      log(event);
 
-    Object.keys(dictionary).forEach((key: string) => {
-      if (newLanguages.indexOf(key) < 0) {
-        newLanguages.push(key);
+      if (event.success) {
+        setLanguage(lang);
       }
-    });
+    },
+    [languages, setLanguage]
+  );
 
-    if (newLanguages.length) {
-      setLanguages([...languages, ...newLanguages]);
-    }
+  const switchl = useCallback(
+    (agent: string) => () => {
+      let next = languages[languages.indexOf(language) + 1];
+      next = next === language ? languages[0] : next;
 
-    setContexts({
-      ...contexts,
-      [context]: dictionary
-    });
-  }
+      const success = next !== language;
 
-  function remove(text: string) {
-    const con = { ...contexts };
+      log({
+        agent,
+        event: success
+          ? `Switched language from ${language} to ${next}`
+          : `Attempted to switch languages with one language (${language}) on registry`,
+        type: success ? "info" : "error",
+        timestamp: new Date(),
+        success
+      });
 
-    if (!con[text]) {
-      throw new Error(`Attempted to remove non-existing locale ${text}`);
-    }
+      if (success) {
+        setLanguage(next);
+      }
+    },
+    [languages]
+  );
 
-    delete con[text];
-    setContexts(con);
-  }
+  const add = useCallback(
+    (agent: string) => (context = agent, dictionary: Dictionary) => {
+      log({
+        agent,
+        event: `Registered locale context ${context}`,
+        type: "info",
+        timestamp: new Date(),
+        success: true
+      });
+
+      let newLanguages: Array<string> = [];
+
+      Object.keys(dictionary).forEach((key: string) => {
+        if (newLanguages.indexOf(key) < 0) {
+          newLanguages.push(key);
+        }
+      });
+
+      if (newLanguages.length) {
+        setLanguages([...languages, ...newLanguages]);
+      }
+
+      setContexts({
+        ...contexts,
+        [context]: dictionary
+      });
+    },
+    [setLanguages, contexts, setContexts]
+  );
+
+  const remove = useCallback(
+    (agent: string) => (text = agent) => {
+      log({
+        agent,
+        event: `Removed locale context ${text}`,
+        type: "info",
+        timestamp: new Date(),
+        success: true
+      });
+
+      const con = { ...contexts };
+
+      if (!con[text]) {
+        throw new Error(`Attempted to remove non-existing locale ${text}`);
+      }
+
+      delete con[text];
+      setContexts(con);
+    },
+    [contexts, setContexts]
+  );
+
+  const clearHistory = useCallback(() => setHistory([]), [setHistory]);
 
   return (
     <Locale.Provider
-      value={{ language, languages, switchl, add, remove, contexts }}
+      value={{
+        set,
+        language,
+        languages,
+        switchl,
+        add,
+        remove,
+        history: {
+          log: history,
+          clear: clearHistory
+        },
+        contexts
+      }}
     >
       {children}
     </Locale.Provider>
