@@ -1,4 +1,4 @@
-import { useEffect, useContext, useCallback } from "react";
+import React, { useEffect, useContext, useCallback } from "react";
 import { Dictionary, UseLocaleReturn } from "./constants";
 import { Locale } from "./constants";
 
@@ -25,10 +25,23 @@ export function useLocale(
     []
   );
 
-  const translate = useCallback(
-    (original: string) => contexts[context]?.[language]?.[original] || original,
-    [contexts, context, language]
-  );
+  const l = (original: string) => {
+    let translationObject = contexts[context]?.[language]?.[original];
+
+    const translation =
+      typeof translationObject === "string"
+        ? translationObject
+        : translationObject?.value || original;
+
+    const highlighted =
+      typeof translationObject !== "string" && translationObject?.highlight;
+
+    return (
+      <span className={String(highlighted && "highlighted")}>
+        {translation}
+      </span>
+    );
+  };
 
   return {
     language,
@@ -41,6 +54,6 @@ export function useLocale(
     add: add(context),
     remove: remove(context),
 
-    l: translate
+    l
   };
 }

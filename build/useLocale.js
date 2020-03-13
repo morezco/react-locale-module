@@ -1,4 +1,4 @@
-import { useEffect, useContext, useCallback } from "react";
+import React, { useEffect, useContext, useCallback } from "react";
 import { Locale } from "./constants";
 export function useLocale(context, dictionary) {
     var _a = useContext(Locale), set = _a.set, language = _a.language, languages = _a.languages, switchl = _a.switchl, add = _a.add, remove = _a.remove, contexts = _a.contexts, history = _a.history;
@@ -6,7 +6,15 @@ export function useLocale(context, dictionary) {
         add(context)(context, dictionary);
         return remove(context);
     }, [add, remove, context, dictionary]), []);
-    var translate = useCallback(function (original) { var _a, _b; return ((_b = (_a = contexts[context]) === null || _a === void 0 ? void 0 : _a[language]) === null || _b === void 0 ? void 0 : _b[original]) || original; }, [contexts, context, language]);
+    var l = function (original) {
+        var _a, _b;
+        var translationObject = (_b = (_a = contexts[context]) === null || _a === void 0 ? void 0 : _a[language]) === null || _b === void 0 ? void 0 : _b[original];
+        var translation = typeof translationObject === "string"
+            ? translationObject
+            : (translationObject === null || translationObject === void 0 ? void 0 : translationObject.value) || original;
+        var highlighted = typeof translationObject !== "string" && (translationObject === null || translationObject === void 0 ? void 0 : translationObject.highlight);
+        return (React.createElement("span", { className: String(highlighted && "highlighted") }, translation));
+    };
     return {
         language: language,
         contexts: contexts,
@@ -16,7 +24,7 @@ export function useLocale(context, dictionary) {
         switchl: switchl(context),
         add: add(context),
         remove: remove(context),
-        l: translate
+        l: l
     };
 }
 //# sourceMappingURL=useLocale.js.map

@@ -14,7 +14,12 @@ export type History = Array<Log>;
 
 export type Dictionary = {
   [languageKey: string]: {
-    [original: string]: string;
+    [original: string]:
+      | string
+      | {
+          value: string;
+          highlight: boolean;
+        };
   };
 };
 
@@ -55,11 +60,7 @@ export type UseLocaleReturn = {
   languages: Array<string>;
   history: { log: History; clear: () => void };
   contexts: {
-    [context: string]: {
-      [languageKey: string]: {
-        [original: string]: string;
-      };
-    };
+    [context: string]: Dictionary;
   };
 
   set: (language: string) => void;
@@ -67,5 +68,5 @@ export type UseLocaleReturn = {
   add: (context: string, dictionary: Dictionary) => void;
   remove: (context: string) => void;
 
-  l: (original: string) => string;
+  l: (original: string) => any;
 };

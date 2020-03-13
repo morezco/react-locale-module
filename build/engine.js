@@ -25,6 +25,7 @@ export var Localised = function (_a) {
     var _c = useState(["en"]), languages = _c[0], setLanguages = _c[1];
     var _d = useState({}), contexts = _d[0], setContexts = _d[1];
     var _e = useState([]), history = _e[0], setHistory = _e[1];
+    var _f = useState(false), devTools = _f[0], setDevTools = _f[1];
     var log = useCallback(AddThrough(setHistory), [setHistory]);
     var set = useCallback(function (agent) { return function (lang) {
         var event = {
@@ -39,7 +40,7 @@ export var Localised = function (_a) {
         if (event.success) {
             setLanguage(lang);
         }
-    }; }, [languages, setLanguage]);
+    }; }, [languages, setLanguage, log]);
     var switchl = useCallback(function (agent) { return function () {
         var next = languages[languages.indexOf(language) + 1];
         next = next === language ? languages[0] : next;
@@ -56,9 +57,9 @@ export var Localised = function (_a) {
         if (success) {
             setLanguage(next);
         }
-    }; }, [languages]);
+    }; }, [languages, language, log]);
     var add = useCallback(function (agent) { return function (context, dictionary) {
-        var _a;
+        var _a, _b;
         if (context === void 0) { context = agent; }
         log({
             agent: agent,
@@ -67,19 +68,42 @@ export var Localised = function (_a) {
             timestamp: new Date(),
             success: true
         });
+        console.log(dictionary, languages[0]);
         var newLanguages = [];
+        if (!dictionary[languages[0]]) {
+            var processedDictionary_1 = (_a = {},
+                _a[languages[0]] = {},
+                _a);
+            Object.keys(dictionary[Object.keys(dictionary)[0]]).forEach(function (value) {
+                processedDictionary_1[languages[0]][value] = value;
+            });
+            dictionary[languages[0]] = processedDictionary_1[languages[0]];
+        }
         Object.keys(dictionary).forEach(function (key) {
             if (newLanguages.indexOf(key) < 0) {
                 newLanguages.push(key);
             }
         });
         if (newLanguages.length) {
-            setLanguages(__spreadArrays(languages, newLanguages));
+            setLanguages(function (current) { return __spreadArrays(current, newLanguages); });
         }
-        setContexts(__assign(__assign({}, contexts), (_a = {}, _a[context] = dictionary, _a)));
-    }; }, [setLanguages, contexts, setContexts]);
+        var processedDictionary = {};
+        Object.entries(dictionary).forEach(function (_a) {
+            var language = _a[0], dic = _a[1];
+            processedDictionary[language] = {};
+            Object.entries(dic).forEach(function (_a) {
+                var phrase = _a[0], translation = _a[1];
+                processedDictionary[language][phrase] = {
+                    value: translation,
+                    highlighted: false
+                };
+            });
+        });
+        setContexts(__assign(__assign({}, contexts), (_b = {}, _b[context] = processedDictionary, _b)));
+    }; }, [setLanguages, contexts, setContexts, log]);
     var remove = useCallback(function (agent) { return function (text) {
         if (text === void 0) { text = agent; }
+        return;
         log({
             agent: agent,
             event: "Removed locale context " + text,
@@ -87,7 +111,7 @@ export var Localised = function (_a) {
             timestamp: new Date(),
             success: true
         });
-        var con = __assign({}, contexts);
+        var con = __assign({}, (contexts || {}));
         if (!con[text]) {
             throw new Error("Attempted to remove non-existing locale " + text);
         }

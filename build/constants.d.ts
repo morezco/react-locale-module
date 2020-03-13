@@ -10,7 +10,10 @@ export declare type Log = {
 export declare type History = Array<Log>;
 export declare type Dictionary = {
     [languageKey: string]: {
-        [original: string]: string;
+        [original: string]: string | {
+            value: string;
+            highlight: boolean;
+        };
     };
 };
 export declare type ContextCollection = {
@@ -38,16 +41,12 @@ export declare type UseLocaleReturn = {
         clear: () => void;
     };
     contexts: {
-        [context: string]: {
-            [languageKey: string]: {
-                [original: string]: string;
-            };
-        };
+        [context: string]: Dictionary;
     };
     set: (language: string) => void;
     switchl: () => void;
     add: (context: string, dictionary: Dictionary) => void;
     remove: (context: string) => void;
-    l: (original: string) => string;
+    l: (original: string) => any;
 };
 export {};
