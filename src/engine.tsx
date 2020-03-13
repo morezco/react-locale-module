@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import styled from "styled-components";
 
 import { AddThrough } from "./helpers";
 
@@ -9,6 +10,10 @@ import {
   History,
   ContextCollection
 } from "./constants";
+
+export const test = styled.div`
+  color: blue;
+`;
 
 export const Localised = ({ children }: any) => {
   const [language, setLanguage] = useState<string>("en");

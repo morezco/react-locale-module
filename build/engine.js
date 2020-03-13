@@ -1,3 +1,7 @@
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -17,8 +21,10 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 import React, { useState, useCallback } from "react";
+import styled from "styled-components";
 import { AddThrough } from "./helpers";
 import { Locale } from "./constants";
+export var test = styled.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  color: blue;\n"], ["\n  color: blue;\n"])));
 export var Localised = function (_a) {
     var children = _a.children;
     var _b = useState("en"), language = _b[0], setLanguage = _b[1];
@@ -133,4 +139,5 @@ export var Localised = function (_a) {
             contexts: contexts
         } }, children));
 };
+var templateObject_1;
 //# sourceMappingURL=engine.js.map
