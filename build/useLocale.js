@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useCallback } from "react";
 import { Locale } from "./constants";
 export function useLocale(context, dictionary) {
-    var _a = useContext(Locale), set = _a.set, language = _a.language, languages = _a.languages, switchl = _a.switchl, add = _a.add, remove = _a.remove, contexts = _a.contexts, history = _a.history;
+    var _a = useContext(Locale), set = _a.set, language = _a.language, languages = _a.languages, switchl = _a.switchl, add = _a.add, remove = _a.remove, contexts = _a.contexts, history = _a.history, devTools = _a.devTools, toggleDevTools = _a.toggleDevTools;
     useEffect(useCallback(function () {
         add(context)(context, dictionary);
         return remove(context);
@@ -24,6 +24,8 @@ export function useLocale(context, dictionary) {
         switchl: switchl(context),
         add: add(context),
         remove: remove(context),
+        devTools: devTools,
+        toggleDevTools: toggleDevTools,
         l: l
     };
 }

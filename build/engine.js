@@ -74,7 +74,6 @@ export var Localised = function (_a) {
             timestamp: new Date(),
             success: true
         });
-        console.log(dictionary, languages[0]);
         var newLanguages = [];
         if (!dictionary[languages[0]]) {
             var processedDictionary_1 = (_a = {},
@@ -125,6 +124,7 @@ export var Localised = function (_a) {
         setContexts(con);
     }; }, [contexts, setContexts]);
     var clearHistory = useCallback(function () { return setHistory([]); }, [setHistory]);
+    var toggleDevTools = useCallback(function () { return setDevTools(!devTools); }, [devTools]);
     return (React.createElement(Locale.Provider, { value: {
             set: set,
             language: language,
@@ -136,6 +136,8 @@ export var Localised = function (_a) {
                 log: history,
                 clear: clearHistory
             },
+            devTools: devTools,
+            toggleDevTools: toggleDevTools,
             contexts: contexts
         } }, children));
 };

@@ -12,14 +12,14 @@ export type Log = {
 
 export type History = Array<Log>;
 
+export type Translation = {
+  value: string;
+  highlight: boolean;
+};
+
 export type Dictionary = {
   [languageKey: string]: {
-    [original: string]:
-      | string
-      | {
-          value: string;
-          highlight: boolean;
-        };
+    [original: string]: string | Translation;
   };
 };
 
@@ -38,6 +38,8 @@ type LocaleContext = {
     log: History;
     clear: () => void;
   };
+  devTools: boolean;
+  toggleDevTools: (e: any) => void;
   contexts: ContextCollection;
 };
 
@@ -52,6 +54,8 @@ export const Locale = createContext<LocaleContext>({
     log: [],
     clear: () => {}
   },
+  devTools: false,
+  toggleDevTools: () => {},
   contexts: {}
 });
 
@@ -67,6 +71,9 @@ export type UseLocaleReturn = {
   switchl: () => void;
   add: (context: string, dictionary: Dictionary) => void;
   remove: (context: string) => void;
+
+  devTools: boolean;
+  toggleDevTools: (e: any) => void;
 
   l: (original: string) => any;
 };

@@ -80,8 +80,6 @@ export const Localised = ({ children }: any) => {
         success: true
       });
 
-      console.log(dictionary, languages[0]);
-
       let newLanguages: Array<string> = [];
 
       if (!dictionary[languages[0]]) {
@@ -154,6 +152,8 @@ export const Localised = ({ children }: any) => {
 
   const clearHistory = useCallback(() => setHistory([]), [setHistory]);
 
+  const toggleDevTools = useCallback(() => setDevTools(!devTools), [devTools]);
+
   return (
     <Locale.Provider
       value={{
@@ -167,6 +167,8 @@ export const Localised = ({ children }: any) => {
           log: history,
           clear: clearHistory
         },
+        devTools,
+        toggleDevTools,
         contexts
       }}
     >

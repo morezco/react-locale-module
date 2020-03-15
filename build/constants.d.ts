@@ -1,4 +1,3 @@
-/// <reference types="react" />
 declare type LogType = "error" | "warning" | "info";
 export declare type Log = {
     agent: string;
@@ -8,12 +7,13 @@ export declare type Log = {
     success: boolean;
 };
 export declare type History = Array<Log>;
+export declare type Translation = {
+    value: string;
+    highlight: boolean;
+};
 export declare type Dictionary = {
     [languageKey: string]: {
-        [original: string]: string | {
-            value: string;
-            highlight: boolean;
-        };
+        [original: string]: string | Translation;
     };
 };
 export declare type ContextCollection = {
@@ -30,6 +30,8 @@ declare type LocaleContext = {
         log: History;
         clear: () => void;
     };
+    devTools: boolean;
+    toggleDevTools: (e: any) => void;
     contexts: ContextCollection;
 };
 export declare const Locale: import("react").Context<LocaleContext>;
@@ -47,6 +49,8 @@ export declare type UseLocaleReturn = {
     switchl: () => void;
     add: (context: string, dictionary: Dictionary) => void;
     remove: (context: string) => void;
+    devTools: boolean;
+    toggleDevTools: (e: any) => void;
     l: (original: string) => any;
 };
 export {};

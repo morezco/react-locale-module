@@ -12,6 +12,8 @@ export var Locale = createContext({
         log: [],
         clear: function () { }
     },
+    devTools: false,
+    toggleDevTools: function () { },
     contexts: {}
 });
 //# sourceMappingURL=constants.js.map

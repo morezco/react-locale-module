@@ -14,7 +14,9 @@ export function useLocale(
     add,
     remove,
     contexts,
-    history
+    history,
+    devTools,
+    toggleDevTools
   } = useContext(Locale);
 
   useEffect(
@@ -53,6 +55,9 @@ export function useLocale(
     switchl: switchl(context),
     add: add(context),
     remove: remove(context),
+
+    devTools,
+    toggleDevTools,
 
     l
   };
