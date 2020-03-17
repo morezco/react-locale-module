@@ -16,6 +16,8 @@ export const Container = styled.main.attrs(() => ({
   position: fixed;
   right: 0;
 
+  overflow: hidden;
+
   &,
   * {
     font-family: Nanum Gothic;

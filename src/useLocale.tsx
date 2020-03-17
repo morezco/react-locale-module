@@ -13,6 +13,7 @@ export function useLocale(
     switchl,
     add,
     remove,
+    change,
     contexts,
     history,
     devTools,
@@ -28,6 +29,14 @@ export function useLocale(
   );
 
   const l = (original: string) => {
+    if (contexts && contexts[context]) {
+      Object.keys(contexts?.[context]).forEach((language: string) => {
+        if (!contexts[context]?.[language]?.[original]) {
+          change(context)(context, language, original, original);
+        }
+      });
+    }
+
     let translationObject = contexts[context]?.[language]?.[original];
 
     const translation =
@@ -55,6 +64,7 @@ export function useLocale(
     switchl: switchl(context),
     add: add(context),
     remove: remove(context),
+    change: change(context),
 
     devTools,
     toggleDevTools,

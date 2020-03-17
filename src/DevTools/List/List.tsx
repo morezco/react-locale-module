@@ -1,24 +1,32 @@
 import React, { useMemo } from "react";
 
 import { Container } from "./styles";
-import { ContextCollection, Dictionary, Translation } from "../../constants";
+import { ContextCollection, Dictionary } from "../../constants";
 
 import Tile from "./Tile/Tile";
 
 interface Props {
   language: string;
+  languages: Array<string>;
   contexts: ContextCollection;
 }
 
-export default function List({ language, contexts }: Props) {
+export default function List({ language, languages, contexts }: Props) {
   const Listable = useMemo(
     () =>
       Object.entries(
         contexts
       ).map(([name, dictionary]: [string, Dictionary], index: number) => (
-        <Tile key={index} title={name} data={dictionary} />
+        <Tile
+          key={index}
+          title={name}
+          index={index}
+          data={dictionary}
+          language={language}
+          languages={languages}
+        />
       )),
-    [contexts, language]
+    [language, contexts]
   );
 
   return <Container>{Listable}</Container>;

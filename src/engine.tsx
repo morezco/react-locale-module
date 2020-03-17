@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
-import styled from "styled-components";
 
-import { AddThrough } from "./helpers";
+import { AddThrough, LS } from "./helpers";
 
 import {
   Dictionary,
@@ -11,9 +10,7 @@ import {
   ContextCollection
 } from "./constants";
 
-export const test = styled.div`
-  color: blue;
-`;
+const LS_KEY = "LOCALE_DEVTOOLS";
 
 export const Localised = ({ children }: any) => {
   const [language, setLanguage] = useState<string>("en");
@@ -22,7 +19,7 @@ export const Localised = ({ children }: any) => {
   const [contexts, setContexts] = useState<ContextCollection>({});
   const [history, setHistory] = useState<History>([]);
 
-  const [devTools, setDevTools] = useState<boolean>(false);
+  const [devTools, setDevTools] = useState<boolean>(LS(LS_KEY) || false);
 
   const log = useCallback(AddThrough(setHistory), [setHistory]);
 
@@ -123,36 +120,63 @@ export const Localised = ({ children }: any) => {
         [context]: processedDictionary
       });
     },
-    [setLanguages, contexts, setContexts, log]
+    [languages, setLanguages, contexts, setContexts, log]
   );
 
   const remove = useCallback(
     (agent: string) => (text: string = agent) => {
       return;
 
-      log({
-        agent,
-        event: `Removed locale context ${text}`,
-        type: "info",
-        timestamp: new Date(),
-        success: true
-      });
+      // log({
+      //   agent,
+      //   event: `Removed locale context ${text}`,
+      //   type: "info",
+      //   timestamp: new Date(),
+      //   success: true
+      // });
 
-      const con = { ...(contexts || {}) };
+      // const con = { ...(contexts || {}) };
 
-      if (!con[text]) {
-        throw new Error(`Attempted to remove non-existing locale ${text}`);
-      }
+      // if (!con[text]) {
+      //   throw new Error(`Attempted to remove non-existing locale ${text}`);
+      // }
 
-      delete con[text];
-      setContexts(con);
+      // delete con[text];
+      // setContexts(con);
     },
-    [contexts, setContexts]
+    []
+  );
+
+  const change = useCallback(
+    (agent: string) => (
+      context: string,
+      language: string,
+      key: string,
+      value: string
+    ) => {
+      setContexts((current: any) => ({
+        ...current,
+        [context]: {
+          ...current[context],
+          [language]: {
+            ...current[context][language],
+            [key]: {
+              value,
+              highlight: false
+            }
+          }
+        }
+      }));
+    },
+    [setContexts]
   );
 
   const clearHistory = useCallback(() => setHistory([]), [setHistory]);
 
-  const toggleDevTools = useCallback(() => setDevTools(!devTools), [devTools]);
+  const toggleDevTools = useCallback(() => {
+    LS(LS_KEY, !devTools);
+    setDevTools(!devTools);
+  }, [devTools]);
 
   return (
     <Locale.Provider
@@ -163,6 +187,7 @@ export const Localised = ({ children }: any) => {
         switchl,
         add,
         remove,
+        change,
         history: {
           log: history,
           clear: clearHistory

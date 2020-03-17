@@ -1,38 +1,34 @@
 import React from "react";
 import { render, act } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import Tile from "../Tile";
+import { Localised } from "../../../../engine";
+import { Environment } from "../../../tests/Environment";
 import "@testing-library/jest-dom/extend-expect";
 
 import { prefix } from "../../../DevTools";
 
-let tile;
-
-const props = {
-  title: "Adimo",
-  data: {
-    en: {
-      Adimo: "Adimo"
-    },
-    pt: {
-      Adimo: "Potestas"
-    }
-  }
-};
-
-const Environment = () => <Tile {...props} />;
+let tile: null | HTMLElement;
 
 beforeEach(() => {
-  const { getByTestId } = render(<Environment />);
+  const { getByTestId } = render(
+    <Localised>
+      <Environment />
+    </Localised>
+  );
 
-  tile = getByTestId(`${prefix}_tile`);
+  tile = getByTestId(`${prefix}_tile0`);
 });
 
 describe("Locale DevTools list tile", () => {
-  it.todo("has an internal open state that begins on false");
-  it.todo("renders its name upon first paint");
-  it.todo("is a 50px tall rectangle while closed");
-  it.todo("has a title and an export code button when closed");
-  it.todo("toggles the open state upon click");
-  it.todo("is an at-most 300px tall list when open");
+  it("gets an external open state that begins on false", () => {
+    // max-height shall be 50px if open state turns out to be false; 300px otherwise
+    expect(tile).toHaveStyle("max-height: 50px;");
+  });
+
+  it("toggles the open state upon click", () => {
+    act(() => {
+      tile!.click();
+    });
+
+    expect(tile).toHaveStyle("max-height: 300px;");
+  });
 });

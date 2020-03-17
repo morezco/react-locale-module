@@ -21,7 +21,7 @@ import "../assets/fonts";
 import { prefix } from "../DevTools";
 export var Container = styled.main.attrs(function () { return ({
     "data-testid": "" + prefix
-}); })(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  position: fixed;\n  right: 0;\n\n  &,\n  * {\n    font-family: Nanum Gothic;\n    color: white;\n  }\n\n  ", "\n\n  transition: all 0.3s ease-in-out;\n\n  width: 300px;\n\n  background-color: #00000044;\n"], ["\n  position: fixed;\n  right: 0;\n\n  &,\n  * {\n    font-family: Nanum Gothic;\n    color: white;\n  }\n\n  ",
+}); })(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  position: fixed;\n  right: 0;\n\n  overflow: hidden;\n\n  &,\n  * {\n    font-family: Nanum Gothic;\n    color: white;\n  }\n\n  ", "\n\n  transition: all 0.3s ease-in-out;\n\n  width: 300px;\n\n  background-color: #00000044;\n"], ["\n  position: fixed;\n  right: 0;\n\n  overflow: hidden;\n\n  &,\n  * {\n    font-family: Nanum Gothic;\n    color: white;\n  }\n\n  ",
     "\n\n  transition: all 0.3s ease-in-out;\n\n  width: 300px;\n\n  background-color: #00000044;\n"])), function (_a) {
     var open = _a.open;
     return "\n    top: " + (open ? "0" : "80px") + ";\n    height: " + (open ? "100vh" : "80px") + ";\n  ";

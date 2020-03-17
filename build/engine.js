@@ -1,7 +1,3 @@
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
 var __assign = (this && this.__assign) || function () {
     __assign = Object.assign || function(t) {
         for (var s, i = 1, n = arguments.length; i < n; i++) {
@@ -21,17 +17,16 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
     return r;
 };
 import React, { useState, useCallback } from "react";
-import styled from "styled-components";
-import { AddThrough } from "./helpers";
+import { AddThrough, LS } from "./helpers";
 import { Locale } from "./constants";
-export var test = styled.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  color: blue;\n"], ["\n  color: blue;\n"])));
+var LS_KEY = "LOCALE_DEVTOOLS";
 export var Localised = function (_a) {
     var children = _a.children;
     var _b = useState("en"), language = _b[0], setLanguage = _b[1];
     var _c = useState(["en"]), languages = _c[0], setLanguages = _c[1];
     var _d = useState({}), contexts = _d[0], setContexts = _d[1];
     var _e = useState([]), history = _e[0], setHistory = _e[1];
-    var _f = useState(false), devTools = _f[0], setDevTools = _f[1];
+    var _f = useState(LS(LS_KEY) || false), devTools = _f[0], setDevTools = _f[1];
     var log = useCallback(AddThrough(setHistory), [setHistory]);
     var set = useCallback(function (agent) { return function (lang) {
         var event = {
@@ -105,26 +100,38 @@ export var Localised = function (_a) {
             });
         });
         setContexts(__assign(__assign({}, contexts), (_b = {}, _b[context] = processedDictionary, _b)));
-    }; }, [setLanguages, contexts, setContexts, log]);
+    }; }, [languages, setLanguages, contexts, setContexts, log]);
     var remove = useCallback(function (agent) { return function (text) {
         if (text === void 0) { text = agent; }
         return;
-        log({
-            agent: agent,
-            event: "Removed locale context " + text,
-            type: "info",
-            timestamp: new Date(),
-            success: true
+        // log({
+        //   agent,
+        //   event: `Removed locale context ${text}`,
+        //   type: "info",
+        //   timestamp: new Date(),
+        //   success: true
+        // });
+        // const con = { ...(contexts || {}) };
+        // if (!con[text]) {
+        //   throw new Error(`Attempted to remove non-existing locale ${text}`);
+        // }
+        // delete con[text];
+        // setContexts(con);
+    }; }, []);
+    var change = useCallback(function (agent) { return function (context, language, key, value) {
+        setContexts(function (current) {
+            var _a, _b, _c;
+            return (__assign(__assign({}, current), (_a = {}, _a[context] = __assign(__assign({}, current[context]), (_b = {}, _b[language] = __assign(__assign({}, current[context][language]), (_c = {}, _c[key] = {
+                value: value,
+                highlight: false
+            }, _c)), _b)), _a)));
         });
-        var con = __assign({}, (contexts || {}));
-        if (!con[text]) {
-            throw new Error("Attempted to remove non-existing locale " + text);
-        }
-        delete con[text];
-        setContexts(con);
-    }; }, [contexts, setContexts]);
+    }; }, [setContexts]);
     var clearHistory = useCallback(function () { return setHistory([]); }, [setHistory]);
-    var toggleDevTools = useCallback(function () { return setDevTools(!devTools); }, [devTools]);
+    var toggleDevTools = useCallback(function () {
+        LS(LS_KEY, !devTools);
+        setDevTools(!devTools);
+    }, [devTools]);
     return (React.createElement(Locale.Provider, { value: {
             set: set,
             language: language,
@@ -132,6 +139,7 @@ export var Localised = function (_a) {
             switchl: switchl,
             add: add,
             remove: remove,
+            change: change,
             history: {
                 log: history,
                 clear: clearHistory
@@ -141,5 +149,4 @@ export var Localised = function (_a) {
             contexts: contexts
         } }, children));
 };
-var templateObject_1;
 //# sourceMappingURL=engine.js.map

@@ -38,6 +38,20 @@ const Environment = () => {
   );
 };
 
+beforeAll(() => {
+  const store: any = {};
+
+  spyOn(localStorage, "getItem").and.callFake((key: string) =>
+    store[key] !== undefined ? store[key] : null
+  );
+  spyOn(localStorage, "setItem").and.callFake(
+    (key: string, value: any) => (store[key] = value)
+  );
+  spyOn(localStorage, "removeItem").and.callFake(
+    (key: string) => delete store[key]
+  );
+});
+
 beforeEach(() => {
   const { getByTestId } = render(
     <Localised>
