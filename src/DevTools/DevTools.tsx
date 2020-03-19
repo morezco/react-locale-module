@@ -15,7 +15,8 @@ type LocaleDevToolsContext = {
     context: string,
     language: string,
     key: string,
-    value: string
+    value?: any,
+    current?: string
   ) => void;
 };
 

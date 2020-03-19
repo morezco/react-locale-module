@@ -37,13 +37,15 @@ export default function Text({
     }
   };
 
-  return (
+  return typeof children === "string" ? (
     <Container
       missing={original === children && language !== languages[0]}
       onDoubleClick={() => setEditing(true)}
     >
       {editing ? (
         <Input
+          onBlur={() => setEditing(false)}
+          autoFocus={true}
           defaultValue={children}
           onChange={handler}
           onKeyDown={closeHandler}
@@ -52,5 +54,5 @@ export default function Text({
         children
       )}
     </Container>
-  );
+  ) : null;
 }

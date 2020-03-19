@@ -4,7 +4,7 @@ export var Locale = createContext({
     languages: [],
     set: function (issuer) { return function (language) { }; },
     switchl: function (issuer) { return function () { }; },
-    add: function (issuer) { return function (context, dictionary) {
+    add: function (issuer) { return function (context, dictionary, data) {
         if (context === void 0) { context = issuer; }
     }; },
     remove: function (issuer) { return function () { }; },

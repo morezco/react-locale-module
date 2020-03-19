@@ -68,7 +68,11 @@ export const Localised = ({ children }: any) => {
   );
 
   const add = useCallback(
-    (agent: string) => (context: string = agent, dictionary: Dictionary) => {
+    (agent: string) => (
+      context: string = agent,
+      dictionary: Dictionary,
+      data?: any
+    ) => {
       log({
         agent,
         event: `Registered locale context ${context}`,
@@ -110,7 +114,8 @@ export const Localised = ({ children }: any) => {
         Object.entries(dic).forEach(([phrase, translation]: [string, any]) => {
           processedDictionary[language][phrase] = {
             value: translation,
-            highlighted: false
+            highlighted: false,
+            current: data?.[phrase]
           };
         });
       });
@@ -152,16 +157,19 @@ export const Localised = ({ children }: any) => {
       context: string,
       language: string,
       key: string,
-      value: string
+      value?: string,
+      current?: string
     ) => {
-      setContexts((current: any) => ({
-        ...current,
+      setContexts((currentState: any) => ({
+        ...currentState,
         [context]: {
-          ...current[context],
+          ...currentState[context],
           [language]: {
-            ...current[context][language],
+            ...currentState[context][language],
             [key]: {
-              value,
+              value: value || currentState[context][language][key].value,
+              current:
+                current || currentState?.[context]?.[language]?.[key]?.current,
               highlight: false
             }
           }

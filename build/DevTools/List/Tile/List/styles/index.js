@@ -3,6 +3,6 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     return cooked;
 };
 import styled from "styled-components";
-export var Container = styled.div(templateObject_1 || (templateObject_1 = __makeTemplateObject([""], [""])));
+export var Container = styled.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  max-height: 550px;\n  overflow-y: auto;\n  overflow-x: hidden;\n"], ["\n  max-height: 550px;\n  overflow-y: auto;\n  overflow-x: hidden;\n"])));
 var templateObject_1;
 //# sourceMappingURL=index.js.map

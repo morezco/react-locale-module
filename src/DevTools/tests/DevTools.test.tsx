@@ -102,7 +102,7 @@ describe("Localisation", () => {
     expect(e.status).toHaveTextContent("false");
 
     act(() => {
-      userEvent.dblClick(el()!);
+      userEvent.dblClick(el("header")!);
     });
 
     expect(e.status).toHaveTextContent("true");

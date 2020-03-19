@@ -14,6 +14,6 @@ export default function Text(_a) {
             setEditing(false);
         }
     };
-    return (React.createElement(Container, { missing: original === children && language !== languages[0], onDoubleClick: function () { return setEditing(true); } }, editing ? (React.createElement(Input, { defaultValue: children, onChange: handler, onKeyDown: closeHandler })) : (children)));
+    return typeof children === "string" ? (React.createElement(Container, { missing: original === children && language !== languages[0], onDoubleClick: function () { return setEditing(true); } }, editing ? (React.createElement(Input, { onBlur: function () { return setEditing(false); }, autoFocus: true, defaultValue: children, onChange: handler, onKeyDown: closeHandler })) : (children))) : null;
 }
 //# sourceMappingURL=Text.js.map

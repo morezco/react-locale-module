@@ -7,6 +7,7 @@ export * from "./U";
 export * from "./load";
 export * from "./save";
 export * from "./copy";
+export * from "./useRerender";
 
 export const LS = (key: string, value?: any) =>
   value === undefined ? Load(key) : Save(key, value);

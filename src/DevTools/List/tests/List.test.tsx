@@ -25,7 +25,9 @@ const mock = {
   }
 };
 
-const Environment = () => <List language={"en"} contexts={mock} />;
+const Environment = () => (
+  <List languages={["en", "pt"]} language={"en"} contexts={mock} />
+);
 
 beforeEach(() => {
   const { getByTestId } = render(<Environment />);

@@ -8,7 +8,7 @@ export default function List(_a) {
             var name = _a[0], dictionary = _a[1];
             return (React.createElement(Tile, { key: index, title: name, index: index, data: dictionary, language: language, languages: languages }));
         });
-    }, [language, contexts]);
+    }, [language, languages, contexts]);
     return React.createElement(Container, null, Listable);
 }
 //# sourceMappingURL=List.js.map

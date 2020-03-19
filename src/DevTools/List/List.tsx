@@ -26,7 +26,7 @@ export default function List({ language, languages, contexts }: Props) {
           languages={languages}
         />
       )),
-    [language, contexts]
+    [language, languages, contexts]
   );
 
   return <Container>{Listable}</Container>;

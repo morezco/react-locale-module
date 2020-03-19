@@ -9,7 +9,7 @@ interface Props {
 export const Container = styled.div.attrs(({ index }: Props) => ({
   "data-testid": `${prefix}_tile${index}`
 }))<Props>`
-  max-height: ${({ open }) => (open ? "300px" : "50px")};
+  max-height: ${({ open }) => (open ? "600px" : "50px")};
 
   overflow: hidden;
   transition: all 0.3s ease-in-out;

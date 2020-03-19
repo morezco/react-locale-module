@@ -59,7 +59,7 @@ export var Localised = function (_a) {
             setLanguage(next);
         }
     }; }, [languages, language, log]);
-    var add = useCallback(function (agent) { return function (context, dictionary) {
+    var add = useCallback(function (agent) { return function (context, dictionary, data) {
         var _a, _b;
         if (context === void 0) { context = agent; }
         log({
@@ -95,7 +95,8 @@ export var Localised = function (_a) {
                 var phrase = _a[0], translation = _a[1];
                 processedDictionary[language][phrase] = {
                     value: translation,
-                    highlighted: false
+                    highlighted: false,
+                    current: data === null || data === void 0 ? void 0 : data[phrase]
                 };
             });
         });
@@ -118,11 +119,13 @@ export var Localised = function (_a) {
         // delete con[text];
         // setContexts(con);
     }; }, []);
-    var change = useCallback(function (agent) { return function (context, language, key, value) {
-        setContexts(function (current) {
+    var change = useCallback(function (agent) { return function (context, language, key, value, current) {
+        setContexts(function (currentState) {
             var _a, _b, _c;
-            return (__assign(__assign({}, current), (_a = {}, _a[context] = __assign(__assign({}, current[context]), (_b = {}, _b[language] = __assign(__assign({}, current[context][language]), (_c = {}, _c[key] = {
-                value: value,
+            var _d, _e, _f;
+            return (__assign(__assign({}, currentState), (_a = {}, _a[context] = __assign(__assign({}, currentState[context]), (_b = {}, _b[language] = __assign(__assign({}, currentState[context][language]), (_c = {}, _c[key] = {
+                value: value || currentState[context][language][key].value,
+                current: current || ((_f = (_e = (_d = currentState === null || currentState === void 0 ? void 0 : currentState[context]) === null || _d === void 0 ? void 0 : _d[language]) === null || _e === void 0 ? void 0 : _e[key]) === null || _f === void 0 ? void 0 : _f.current),
                 highlight: false
             }, _c)), _b)), _a)));
         });

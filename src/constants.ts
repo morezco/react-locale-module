@@ -13,13 +13,20 @@ export type Log = {
 export type History = Array<Log>;
 
 export type Translation = {
-  value: string;
+  value: string | ContextDependantString;
+  current?: string;
   highlight: boolean;
+};
+
+export type ContextDependantString = {
+  [match: string]: {
+    [word: string]: string;
+  };
 };
 
 export type Dictionary = {
   [languageKey: string]: {
-    [original: string]: string | Translation;
+    [original: string]: string | ContextDependantString | Translation;
   };
 };
 
@@ -32,7 +39,9 @@ type LocaleContext = {
   languages: Array<string>;
   switchl: Function;
   set: (issuer: string) => (language: string) => void;
-  add: (issuer: string) => (context: string, dictionary: Dictionary) => void;
+  add: (
+    issuer: string
+  ) => (context: string, dictionary: Dictionary, data?: any) => void;
   remove: (issuer: string) => () => void;
   history: {
     log: History;
@@ -43,7 +52,13 @@ type LocaleContext = {
   contexts: ContextCollection;
   change: (
     issuer: string
-  ) => (context: string, language: string, key: string, value: string) => void;
+  ) => (
+    context: string,
+    language: string,
+    key: string,
+    value?: string,
+    current?: string
+  ) => void;
 };
 
 export const Locale = createContext<LocaleContext>({
@@ -51,7 +66,11 @@ export const Locale = createContext<LocaleContext>({
   languages: [],
   set: (issuer: string) => (language: string) => {},
   switchl: (issuer: string) => () => {},
-  add: (issuer: string) => (context = issuer, dictionary: Dictionary) => {},
+  add: (issuer: string) => (
+    context = issuer,
+    dictionary: Dictionary,
+    data?: any
+  ) => {},
   remove: (issuer: string) => () => {},
   history: {
     log: [],
@@ -73,17 +92,19 @@ export type UseLocaleReturn = {
 
   set: (language: string) => void;
   switchl: () => void;
-  add: (context: string, dictionary: Dictionary) => void;
+  add: (context: string, dictionary: Dictionary, data?: any) => void;
   remove: (context: string) => void;
   change: (
     context: string,
     language: string,
     key: string,
-    value: string
+    value?: string,
+    current?: string
   ) => void;
 
   devTools: boolean;
   toggleDevTools: (e: any) => void;
 
   l: (original: string) => any;
+  Text: any;
 };
