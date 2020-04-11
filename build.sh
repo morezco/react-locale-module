@@ -1,12 +1,10 @@
 package=${PWD##*/}
-buildPackage=./package.build.json
-actualPackage=./package.json
 
-mv $actualPackage ./wait
+mv ./package.json ./wait
 
-mv $buildPackage $actualPackage
+mv ./package.build.json ./package.json
 
-if [ ! -d "node_modules" ] then
+if [ ! -d "node_modules" ]; then
     yarn
 fi
 
@@ -36,6 +34,6 @@ cp ../../$package/package.json ./package.json
 
 cd ../../$package
 
-mv $actualPackage $buildPackage
+mv ./package.json ./package.build.json
 
-mv ./wait $actualPackage
+mv ./wait ./package.json
