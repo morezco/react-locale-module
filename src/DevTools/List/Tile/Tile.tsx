@@ -12,12 +12,14 @@ interface Props {
   language: string;
   languages: Array<string>;
   index: number;
+  setCode: (code: string) => void;
 }
 
 export default function Tile({
   title,
   language,
   languages,
+  setCode,
   data,
   index
 }: Props) {
@@ -31,7 +33,7 @@ export default function Tile({
 
   return (
     <Container index={index} onClick={toggle} open={open}>
-      <Header index={index} open={open} data={data}>
+      <Header index={index} open={open} data={data} setCode={setCode}>
         {title}
       </Header>
 

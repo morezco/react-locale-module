@@ -13,4 +13,5 @@ export declare const Title: import("styled-components").StyledComponent<"h1", an
 }, "data-testid">;
 export declare const Logo: () => JSX.Element;
 export declare const Pin: (props: any) => JSX.Element;
+export declare const Code: import("styled-components").StyledComponent<"pre", any, {}, never>;
 export {};

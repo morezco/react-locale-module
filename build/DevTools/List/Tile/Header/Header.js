@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { copy } from "../../../../helpers";
 import { Container, Title, Code } from "./styles";
 export default function Header(_a) {
-    var children = _a.children, data = _a.data, open = _a.open, index = _a.index;
+    var children = _a.children, data = _a.data, open = _a.open, index = _a.index, setCode = _a.setCode;
     var print = useMemo(function () {
         var res = {};
         Object.entries(data).forEach(function (_a) {
@@ -13,11 +13,10 @@ export default function Header(_a) {
                 res[language][entry] = value;
             });
         });
-        console.log(res);
         return res;
     }, [data]);
     return (React.createElement(Container, { index: index, open: open },
-        React.createElement(Code, { onClick: function () { return copy(JSON.stringify(print)); } }),
+        React.createElement(Code, { onClick: function () { return copy(JSON.stringify(print)); }, onDoubleClick: function () { return setCode(JSON.stringify(print, null, 4)); } }),
         React.createElement(Title, { index: index }, children)));
 }
 //# sourceMappingURL=Header.js.map

@@ -7,7 +7,7 @@ import {
   Locale,
   Log,
   History,
-  ContextCollection
+  ContextCollection,
 } from "./constants";
 
 const LS_KEY = "LOCALE_DEVTOOLS";
@@ -15,6 +15,8 @@ const LS_KEY = "LOCALE_DEVTOOLS";
 export const Localised = ({ children }: any) => {
   const [language, setLanguage] = useState<string>("en");
   const [languages, setLanguages] = useState<Array<string>>(["en"]);
+
+  const [code, setCode] = useState<string>("");
 
   const [contexts, setContexts] = useState<ContextCollection>({});
   const [history, setHistory] = useState<History>([]);
@@ -30,7 +32,7 @@ export const Localised = ({ children }: any) => {
         event: `set language to ${lang}`,
         type: "info",
         timestamp: new Date(),
-        success: false
+        success: false,
       };
 
       event.success = languages.includes(lang);
@@ -57,7 +59,7 @@ export const Localised = ({ children }: any) => {
           : `Attempted to switch languages with one language (${language}) on registry`,
         type: success ? "info" : "error",
         timestamp: new Date(),
-        success
+        success,
       });
 
       if (success) {
@@ -78,14 +80,14 @@ export const Localised = ({ children }: any) => {
         event: `Registered locale context ${context}`,
         type: "info",
         timestamp: new Date(),
-        success: true
+        success: true,
       });
 
       let newLanguages: Array<string> = [];
 
       if (!dictionary[languages[0]]) {
         let processedDictionary: any = {
-          [languages[0]]: {}
+          [languages[0]]: {},
         };
 
         Object.keys(dictionary[Object.keys(dictionary)[0]]).forEach(
@@ -104,7 +106,7 @@ export const Localised = ({ children }: any) => {
       });
 
       if (newLanguages.length) {
-        setLanguages(current => [...current, ...newLanguages]);
+        setLanguages((current) => [...current, ...newLanguages]);
       }
 
       let processedDictionary: any = {};
@@ -114,15 +116,15 @@ export const Localised = ({ children }: any) => {
         Object.entries(dic).forEach(([phrase, translation]: [string, any]) => {
           processedDictionary[language][phrase] = {
             value: translation,
-            highlighted: false,
-            current: data?.[phrase]
+            highlight: false,
+            current: data?.[phrase],
           };
         });
       });
 
       setContexts({
         ...contexts,
-        [context]: processedDictionary
+        [context]: processedDictionary,
       });
     },
     [languages, setLanguages, contexts, setContexts, log]
@@ -170,10 +172,10 @@ export const Localised = ({ children }: any) => {
               value: value || currentState[context][language][key].value,
               current:
                 current || currentState?.[context]?.[language]?.[key]?.current,
-              highlight: false
-            }
-          }
-        }
+              highlight: true,
+            },
+          },
+        },
       }));
     },
     [setContexts]
@@ -185,6 +187,50 @@ export const Localised = ({ children }: any) => {
     LS(LS_KEY, !devTools);
     setDevTools(!devTools);
   }, [devTools]);
+
+  const setDevToolsCode = useCallback((code: string) => setCode(code), [
+    setCode,
+  ]);
+
+  const highlightTranslation = useCallback(
+    (context: string, identifier: string) => {
+      setContexts((current: any) => {
+        return {
+          ...current,
+          [context]: {
+            ...current[context],
+            [language]: {
+              ...current[context][language],
+              [identifier]: {
+                ...current[context][language][identifier],
+                highlight: true,
+              },
+            },
+          },
+        };
+      });
+    },
+    [setContexts, language]
+  );
+
+  const clearHighlight = useCallback(
+    (context: string, identifier: string) => {
+      setContexts((current: any) => ({
+        ...current,
+        [context]: {
+          ...current[context],
+          [language]: {
+            ...current[context][language],
+            [identifier]: {
+              ...current[context][language][identifier],
+              highlight: false,
+            },
+          },
+        },
+      }));
+    },
+    [setContexts, language]
+  );
 
   return (
     <Locale.Provider
@@ -198,11 +244,15 @@ export const Localised = ({ children }: any) => {
         change,
         history: {
           log: history,
-          clear: clearHistory
+          clear: clearHistory,
         },
         devTools,
         toggleDevTools,
-        contexts
+        setCode: setDevToolsCode,
+        highlightTranslation,
+        clearHighlight,
+        code,
+        contexts,
       }}
     >
       {children}

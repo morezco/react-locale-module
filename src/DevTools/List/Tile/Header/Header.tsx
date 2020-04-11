@@ -9,9 +9,16 @@ interface Props {
   children: string;
   data: Dictionary;
   index: number;
+  setCode: (code: string) => void;
 }
 
-export default function Header({ children, data, open, index }: Props) {
+export default function Header({
+  children,
+  data,
+  open,
+  index,
+  setCode
+}: Props) {
   const print = useMemo(() => {
     let res: any = {};
 
@@ -27,14 +34,15 @@ export default function Header({ children, data, open, index }: Props) {
       });
     });
 
-    console.log(res);
-
     return res;
   }, [data]);
 
   return (
     <Container index={index} open={open}>
-      <Code onClick={() => copy(JSON.stringify(print))} />
+      <Code
+        onClick={() => copy(JSON.stringify(print))}
+        onDoubleClick={() => setCode(JSON.stringify(print, null, 4))}
+      />
       <Title index={index}>{children}</Title>
     </Container>
   );

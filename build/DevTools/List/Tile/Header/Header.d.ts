@@ -4,6 +4,7 @@ interface Props {
     children: string;
     data: Dictionary;
     index: number;
+    setCode: (code: string) => void;
 }
-export default function Header({ children, data, open, index }: Props): JSX.Element;
+export default function Header({ children, data, open, index, setCode }: Props): JSX.Element;
 export {};

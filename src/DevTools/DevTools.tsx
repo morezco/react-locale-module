@@ -1,7 +1,7 @@
 import React, { useState, createContext } from "react";
 import { useLocale } from "../index";
 
-import { Container, Header, Title, Logo, Pin } from "./styles";
+import { Container, Header, Title, Logo, Pin, Code } from "./styles";
 
 import List from "./List/List";
 
@@ -35,7 +35,9 @@ export function DevTools() {
     switchl,
     devTools,
     change,
-    toggleDevTools
+    toggleDevTools,
+    setDevToolsCode,
+    code
   } = useLocale("DevTools", { pt: {} });
 
   const [tiles, setTiles] = useState<Array<string>>([]);
@@ -64,7 +66,13 @@ export function DevTools() {
             {devTools && <Pin onClick={toggleDevTools} />}
           </Header>
 
-          <List languages={languages} language={language} contexts={contexts} />
+          <List
+            languages={languages}
+            language={language}
+            contexts={contexts}
+            setCode={setDevToolsCode}
+          />
+          {code && <Code onClick={() => setDevToolsCode("")}>{code}</Code>}
         </div>
       </Container>
     </LocaleDevTools.Provider>

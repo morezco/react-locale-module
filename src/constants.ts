@@ -50,6 +50,10 @@ type LocaleContext = {
   devTools: boolean;
   toggleDevTools: (e: any) => void;
   contexts: ContextCollection;
+  setCode: (code: string) => void;
+  code: string;
+  highlightTranslation: (context: string, original: string) => void;
+  clearHighlight: (context: string, original: string) => void;
   change: (
     issuer: string
   ) => (
@@ -76,8 +80,12 @@ export const Locale = createContext<LocaleContext>({
     log: [],
     clear: () => {}
   },
+  setCode: () => {},
+  code: "",
   devTools: false,
   toggleDevTools: () => {},
+  highlightTranslation: () => {},
+  clearHighlight: () => {},
   contexts: {},
   change: () => () => {}
 });
@@ -104,6 +112,8 @@ export type UseLocaleReturn = {
 
   devTools: boolean;
   toggleDevTools: (e: any) => void;
+  setDevToolsCode: (code: string) => void;
+  code: string;
 
   l: (original: string) => any;
   Text: any;

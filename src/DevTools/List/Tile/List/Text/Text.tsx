@@ -1,5 +1,6 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import { LocaleDevTools } from "../../../../DevTools";
+import { Locale } from "../../../../../constants";
 
 import { Container, Input } from "./styles";
 
@@ -18,17 +19,20 @@ export default function Text({
   children,
   context,
   language,
-  languages
+  languages,
 }: Props) {
   const [editing, setEditing] = useState(false);
   const { change } = useContext(LocaleDevTools);
+  const { highlightTranslation, clearHighlight } = useContext(Locale);
 
   const handler = (e: any) => {
     const {
-      target: { value }
+      target: { value },
     } = e;
 
-    change(context, language, original, value);
+    if (editing) {
+      change(context, language, original, value);
+    }
   };
 
   const closeHandler = (e: any) => {
@@ -36,6 +40,17 @@ export default function Text({
       setEditing(false);
     }
   };
+
+  useEffect(
+    useCallback(() => {
+      if (editing) {
+        highlightTranslation(context, original);
+      } else {
+        clearHighlight(context, original);
+      }
+    }, [clearHighlight, context, editing, highlightTranslation, original]),
+    [editing]
+  );
 
   return typeof children === "string" ? (
     <Container

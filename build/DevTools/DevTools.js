@@ -7,7 +7,7 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 };
 import React, { useState, createContext } from "react";
 import { useLocale } from "../index";
-import { Container, Header, Title, Logo, Pin } from "./styles";
+import { Container, Header, Title, Logo, Pin, Code } from "./styles";
 import List from "./List/List";
 export var prefix = "locale_devTools";
 export var LocaleDevTools = createContext({
@@ -17,7 +17,7 @@ export var LocaleDevTools = createContext({
     change: function () { return function () { }; }
 });
 export function DevTools() {
-    var _a = useLocale("DevTools", { pt: {} }), languages = _a.languages, language = _a.language, contexts = _a.contexts, switchl = _a.switchl, devTools = _a.devTools, change = _a.change, toggleDevTools = _a.toggleDevTools;
+    var _a = useLocale("DevTools", { pt: {} }), languages = _a.languages, language = _a.language, contexts = _a.contexts, switchl = _a.switchl, devTools = _a.devTools, change = _a.change, toggleDevTools = _a.toggleDevTools, setDevToolsCode = _a.setDevToolsCode, code = _a.code;
     var _b = useState([]), tiles = _b[0], setTiles = _b[1];
     var openTile = function (name) { return setTiles(__spreadArrays(tiles, [name])); };
     var closeTile = function (name) {
@@ -35,6 +35,7 @@ export function DevTools() {
                     React.createElement(Logo, null),
                     React.createElement(Title, null, language),
                     devTools && React.createElement(Pin, { onClick: toggleDevTools })),
-                React.createElement(List, { languages: languages, language: language, contexts: contexts })))));
+                React.createElement(List, { languages: languages, language: language, contexts: contexts, setCode: setDevToolsCode }),
+                code && React.createElement(Code, { onClick: function () { return setDevToolsCode(""); } }, code)))));
 }
 //# sourceMappingURL=DevTools.js.map

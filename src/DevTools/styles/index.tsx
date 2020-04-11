@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const Container = styled.main.attrs(() => ({
-  "data-testid": `${prefix}`
+  "data-testid": `${prefix}`,
 }))<Props>`
   position: fixed;
   right: 0;
@@ -24,6 +24,10 @@ export const Container = styled.main.attrs(() => ({
     color: white;
   }
 
+  > div {
+    position: relative;
+  }
+
   ${({ open }) => `
     top: ${open ? "0" : "80px"};
     height: ${open ? "100vh" : "80px"};
@@ -34,10 +38,12 @@ export const Container = styled.main.attrs(() => ({
   width: 300px;
 
   background-color: #00000044;
+
+  z-index: 100000000;
 `;
 
 export const Header = styled.header.attrs((props: any) => ({
-  "data-testid": `${prefix}_header`
+  "data-testid": `${prefix}_header`,
 }))<Props>`
   display: flex;
   align-items: center;
@@ -53,14 +59,14 @@ export const Header = styled.header.attrs((props: any) => ({
 `;
 
 export const Title = styled.h1.attrs(() => ({
-  "data-testid": `${prefix}_title`
+  "data-testid": `${prefix}_title`,
 }))``;
 
 export const Logo = () => (
   <Globe
     data-testid={`${prefix}_logo`}
     style={{
-      color: "white"
+      color: "white",
     }}
     size={48}
   />
@@ -74,3 +80,22 @@ export const Pin = (props: any) => (
     {...props}
   />
 );
+
+export const Code = styled.pre`
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  min-width: 95%;
+  min-height: 100vh;
+  padding: 0 5px;
+
+  background-color: #000000aa;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.75em;
+`;

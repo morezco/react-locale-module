@@ -3,9 +3,11 @@ import {
   Dictionary,
   UseLocaleReturn,
   ContextDependantString,
-  Translation
+  Translation,
 } from "./constants";
 import { Locale } from "./constants";
+
+import TextComponent from "./Text/Text";
 
 export function useLocale(
   context: string,
@@ -23,7 +25,9 @@ export function useLocale(
     contexts,
     history,
     devTools,
-    toggleDevTools
+    toggleDevTools,
+    setCode,
+    code,
   } = useContext(Locale);
 
   useEffect(
@@ -50,23 +54,64 @@ export function useLocale(
         });
       }
 
-      let translationObject = contexts[context]?.[language]?.[original];
+      let translationObject = contexts[context]?.[language]
+        ? Object.values(contexts[context]?.[language])?.find(
+            (x: any) => x.value === original
+          )
+        : contexts[context]?.[language]?.[original];
 
-      const translation =
-        typeof translationObject === "string"
-          ? translationObject
-          : translationObject?.value || original;
+      if (translationObject) {
+        const translation =
+          typeof translationObject === "string"
+            ? translationObject
+            : translationObject?.value || original;
 
-      const highlighted =
-        typeof translationObject !== "string" && translationObject?.highlight;
+        const highlighted =
+          typeof translationObject !== "string"
+            ? translationObject?.highlight
+            : false;
 
-      return (
-        <span className={String(highlighted && "highlighted")}>
-          {translation}
-        </span>
-      );
+        return (
+          <TextComponent editing={devTools && !!highlighted}>
+            {String(translation)}
+          </TextComponent>
+        );
+      } else {
+        let translationObject = contexts[context]?.[language]?.[original];
+
+        const translation =
+          typeof translationObject === "string"
+            ? translationObject
+            : translationObject?.value || original;
+
+        let secondGuess: any =
+          contexts[context]?.[language] &&
+          Object.values(contexts[context]?.[language])?.find(
+            (x: any) => x.value === check
+          );
+
+        if (secondGuess && typeof secondGuess !== "string") {
+          secondGuess = secondGuess.highlight;
+        } else {
+          secondGuess = false;
+        }
+
+        return (
+          <TextComponent
+            editing={
+              devTools &&
+              !!(
+                typeof translationObject !== "string" &&
+                (translationObject?.highlight || !!secondGuess)
+              )
+            }
+          >
+            {String(translation)}
+          </TextComponent>
+        );
+      }
     },
-    [change, data, context, language, contexts]
+    [change, data, context, language, contexts, devTools]
   );
 
   const Text = useCallback(
@@ -143,8 +188,10 @@ export function useLocale(
 
     devTools,
     toggleDevTools,
+    setDevToolsCode: setCode,
+    code,
 
     l,
-    Text
+    Text,
   };
 }

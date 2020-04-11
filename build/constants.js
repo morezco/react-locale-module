@@ -12,8 +12,12 @@ export var Locale = createContext({
         log: [],
         clear: function () { }
     },
+    setCode: function () { },
+    code: "",
     devTools: false,
     toggleDevTools: function () { },
+    highlightTranslation: function () { },
+    clearHighlight: function () { },
     contexts: {},
     change: function () { return function () { }; }
 });

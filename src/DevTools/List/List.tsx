@@ -9,9 +9,15 @@ interface Props {
   language: string;
   languages: Array<string>;
   contexts: ContextCollection;
+  setCode: (code: string) => void;
 }
 
-export default function List({ language, languages, contexts }: Props) {
+export default function List({
+  language,
+  languages,
+  contexts,
+  setCode,
+}: Props) {
   const Listable = useMemo(
     () =>
       Object.entries(
@@ -24,9 +30,10 @@ export default function List({ language, languages, contexts }: Props) {
           data={dictionary}
           language={language}
           languages={languages}
+          setCode={setCode}
         />
       )),
-    [language, languages, contexts]
+    [language, languages, contexts, setCode]
   );
 
   return <Container>{Listable}</Container>;

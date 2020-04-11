@@ -39,6 +39,10 @@ declare type LocaleContext = {
     devTools: boolean;
     toggleDevTools: (e: any) => void;
     contexts: ContextCollection;
+    setCode: (code: string) => void;
+    code: string;
+    highlightTranslation: (context: string, original: string) => void;
+    clearHighlight: (context: string, original: string) => void;
     change: (issuer: string) => (context: string, language: string, key: string, value?: string, current?: string) => void;
 };
 export declare const Locale: import("react").Context<LocaleContext>;
@@ -59,6 +63,8 @@ export declare type UseLocaleReturn = {
     change: (context: string, language: string, key: string, value?: string, current?: string) => void;
     devTools: boolean;
     toggleDevTools: (e: any) => void;
+    setDevToolsCode: (code: string) => void;
+    code: string;
     l: (original: string) => any;
     Text: any;
 };
