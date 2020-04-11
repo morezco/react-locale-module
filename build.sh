@@ -1,4 +1,14 @@
 package=${PWD##*/}
+buildPackage=./package.build.json
+actualPackage=./package.json
+
+mv $actualPackage ./wait
+
+mv $buildPackage $actualPackage
+
+if [ ! -d "node_modules" ] then
+    yarn
+fi
 
 tsc --outDir ./build
 
@@ -23,3 +33,9 @@ fi
 
 cp -r ../../$package/build ./build
 cp ../../$package/package.json ./package.json
+
+cd ../../$package
+
+mv $actualPackage $buildPackage
+
+mv ./wait $actualPackage
