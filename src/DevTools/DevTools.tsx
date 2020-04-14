@@ -24,7 +24,7 @@ export const LocaleDevTools = createContext<LocaleDevToolsContext>({
   openTile: () => {},
   closeTile: () => {},
   tiles: [],
-  change: () => () => {}
+  change: () => () => {},
 });
 
 export function DevTools() {
@@ -37,7 +37,7 @@ export function DevTools() {
     change,
     toggleDevTools,
     setDevToolsCode,
-    code
+    code,
   } = useLocale("DevTools", { pt: {} });
 
   const [tiles, setTiles] = useState<Array<string>>([]);
@@ -51,11 +51,11 @@ export function DevTools() {
         tiles,
         openTile,
         closeTile,
-        change
+        change,
       }}
     >
       <Container open={devTools}>
-        <div onDoubleClick={e => e.stopPropagation()}>
+        <div onDoubleClick={(e) => e.stopPropagation()}>
           <Header
             open={devTools}
             onClick={switchl}

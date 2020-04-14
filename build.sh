@@ -30,7 +30,15 @@ if [ -d "build" ]; then
 fi
 
 cp -r ../../$package/build ./build
-cp ../../$package/package.json ./package.json
+cp ../../$package/wait ./package.json
+
+if [ ! -d ./build/DevTools/assets/fonts ]; then
+    mkdir ./build/DevTools/assets/fonts
+fi
+
+
+cp -r ../../$package/src/DevTools/assets/fonts/* ./build/DevTools/assets/fonts
+cp ../../$package/src/DevTools/assets/fonts.css ./build/DevTools/assets/fonts.css
 
 cd ../../$package
 

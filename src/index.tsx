@@ -1,5 +1,5 @@
 import "./DevTools/assets/fonts";
 
-export * from "./engine";
-export * from "./useLocale";
-export * from "./DevTools";
+export { Localised } from "./engine";
+export { useLocale } from "./useLocale";
+export { DevTools } from "./DevTools";

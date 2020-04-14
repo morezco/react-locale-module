@@ -10,7 +10,7 @@ import {
   Equal,
   Input,
   Subtitle,
-  Listing
+  Listing,
 } from "./styles";
 import { ContextDependantString } from "../../../../../constants";
 
@@ -29,7 +29,7 @@ export default function Variable({
   value,
   context,
   language,
-  children
+  children,
 }: Props) {
   const [open, setOpen] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(false);
@@ -39,7 +39,7 @@ export default function Variable({
 
   const handler = (e: any) => {
     const {
-      target: { value }
+      target: { value },
     } = e;
 
     change(context, language, name, undefined, value);
@@ -47,14 +47,14 @@ export default function Variable({
 
   const valueHandler = (e: any) => {
     const {
-      target: { name, value }
+      target: { name, value },
     } = e;
 
     const [match, word] = name.split(",");
 
     change(context, language, title, {
       ...children,
-      [match]: { ...children[match], [word]: value }
+      [match]: { ...children[match], [word]: value },
     });
   };
 

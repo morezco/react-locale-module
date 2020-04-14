@@ -1,1 +1,1 @@
-export * from "./DevTools";
+export { DevTools } from "./DevTools";

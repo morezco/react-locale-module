@@ -22,10 +22,10 @@ export default function List({
     () =>
       Object.entries(
         contexts
-      ).map(([name, dictionary]: [string, Dictionary], index: number) => (
+      ).map(([omg, dictionary]: [string, Dictionary], index: number) => (
         <Tile
           key={index}
-          title={name}
+          title={omg}
           index={index}
           data={dictionary}
           language={language}

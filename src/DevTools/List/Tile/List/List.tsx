@@ -18,10 +18,10 @@ export default function List({
   context,
   language,
   languages,
-  children
+  children,
 }: Props) {
   return (
-    <Container onClick={e => e.stopPropagation()}>
+    <Container onClick={(e) => e.stopPropagation()}>
       {Object.entries(children).map(
         ([original, translation]: [string, Translation], index: number) =>
           typeof translation.value === "string" ? (
