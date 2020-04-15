@@ -444,7 +444,7 @@ The third phase is for us to translate the bits and pieces that actually change 
 }
 ```
 
-So the third change should be for us to add the variable-dependant variations of our phrases into our default language context. Yeah, the "`en`" context is coming back, but it still does not need the repetitive default translations.
+So the third change should be for us to add the variable-dependant variations of our phrases into our default language context. Yeah, the "`en`" context is coming back, but it still does not need the repetitive default translations, and that goes for variables too.
 
 `locale.json:`
 ```
