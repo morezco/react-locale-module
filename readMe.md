@@ -199,7 +199,7 @@ Albeit you are free to choose whether you would like to translate into .json by 
 
 **Warning: the DevTools require styled-components, @types/styled-components AND styled-icons to be present as peerDependencies**. Attempted use of them without these packages will lead to a crash.
 
-The code below will render the developer tools for this module to the right side of the screen. Translate your view in them and see the live results, then copy the resulting JSON to your application with the simple click of a button.
+The code below will render the developer tools for this module to the right side of the screen. Translate your view and see the live results, then copy the resulting JSON to your application with the simple click of a button.
 
 `Component.tsx:`
 
