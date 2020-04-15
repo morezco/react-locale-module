@@ -543,7 +543,7 @@ That's it. Have a cookie 🍪
 * `string[]` **languages**: an array containing all of the languages currently registered. A language is registered whenever a dictionary, in any component, uses a language code that was unknown up until now. You may call languages whatever you like, as long as you keep your naming for that language consistent throughout your application.
 
 * `{ log, clear }` **history**: an object containing log and a clear function for the log of the engine.
-  - `log[]` **log**: an array of `log` objects to help you debug the enigne during development.
+  - `log[]` **log**: an array of `log` objects to help you debug the engine during development.
   - `void` **clear**: a function that clears all entries off the log.
 * `object` **contexts**: an object containing all contexts currently registered. You should **not** interact with this directly, but you may log it to inspect it.
 
