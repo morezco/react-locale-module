@@ -232,10 +232,12 @@ import Dictionary from './json';
 import { useLocale } from 'locale';
 
 export default function Component() {
-    const { Text } = useLocale("Component", Dictionary);
+    const { Text, switchl } = useLocale("Component", Dictionary);
+
+    // call switchl anywhere, pass it as a prop to onClick like so
 
     return (
-        <h1>
+        <h1 onClick={switchl}>
             <Text>They look beautiful tonight.</Text>
         </h1>
     );
