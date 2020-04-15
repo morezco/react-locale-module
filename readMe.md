@@ -195,6 +195,8 @@ And when you do go for the translation, you can use our second tip.
 
 - ### This module comes with DevTools for GUI-aided translation.
 
+Albeit you are free to choose whether you would like to translate into .json by hand or use the DevTools.
+
 **Warning: the DevTools require styled-components, @types/styled-components AND styled-icons to be present as peerDependencies**. Attempted use of of them without these packages will lead to a crash.
 
 The code below will render the developer tools for this module to the right side of the screen. Translate your view in them and see the live results, then copy the resulting JSON to your application with the simple click of a button.
