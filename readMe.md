@@ -427,7 +427,7 @@ Secondly, and order is important now, translate **the phrase in its most variabl
 }
 ```
 
-So now all that remains is the third phase, which is to translate the bits and pieces that actually change from gender to gender. A variable object entry in the dictionary looks like this:
+The third phase is for us to translate the bits and pieces that actually change from gender to gender. A variable object entry in the dictionary looks like this:
 
 ```
 {
