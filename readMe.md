@@ -197,7 +197,7 @@ And when you do go for the translation, you can use our second tip.
 
 Albeit you are free to choose whether you would like to translate into .json by hand or use the DevTools.
 
-**Warning: the DevTools require styled-components, @types/styled-components AND styled-icons to be present as peerDependencies**. Attempted use of them without these packages will lead to a crash.
+**Warning: the DevTools require styled-components, @types/styled-components to be present as peerDependencies**. Attempted use of them without these packages will lead to a crash.
 
 The code below will render the developer tools for this module to the right side of the screen. Translate your view and see the live results, then copy the resulting JSON to your application with a click of a button.
 
@@ -349,9 +349,9 @@ For our English-speaking user base, translation should be easy enough. As you pr
 * female:  She  looks pretty    tonight
 ```
 
-For our portuguese-speaking user base, however, translation also varies on gender, **but** the indefinite unknown is **not** the plural; it defaults to male in some cases. Also, plural **does vary by gender**. 
+For our portuguese-speaking user base, however, translation also varies on gender, **but** the indefinite unknown is **not** the plural; it defaults to male in some cases. Also, plural **does vary by gender**.
 
-For this case especifically, it is impossible to replicate the exact meaning of the phrase while still referring to the user by an article. The text will need to be readapted to refer to the user in some other manner, like "the user". This has the side-effect of turning "look" into "looks" (third person), though confusingly enough that does not affect the syntax in the Portguese language. 
+For this case especifically, it is impossible to replicate the exact meaning of the phrase while still referring to the user by an article. The text will need to be readapted to refer to the user in some other manner, like "the user". This has the side-effect of turning "look" into "looks" (third person), though confusingly enough that does not affect the syntax in the Portguese language.
 
 We could also remove the reference to the user entirely by changing the addressing of the phrase to the second person, similar to changing it to "You are beautiful tonight" in English, which, again, may or may not be acceptable in that language depending on cultural differences and the tonal requirement of your application.
 
@@ -416,6 +416,7 @@ export default function Component({ user }: Props) {
 Secondly, and order is important now, translate **the phrase in its most variable-neutral form available, AKA the default case**. For this example, the best default case for us to fallback to is the unknown gender one, rather than assuming the gender of our user to be male or female. It should be okay for the default case of your default language to fit every other language. Our current example already has the default case translated into Portuguese and French:
 
 `locale.json:`
+
 ```
 {
     pt: {
@@ -447,11 +448,12 @@ The third phase is for us to translate the bits and pieces that actually change 
 So the third change should be for us to add the variable-dependant variations of our phrases into our default language context. Yeah, the "`en`" context is coming back, but it still does not need the repetitive default translations, and that goes for variables too.
 
 `locale.json:`
+
 ```
 {
     en: {
         "gender": {
-            "male": { 
+            "male": {
                 "They": "He",
                 "look": "looks",
                 "beautiful": "handsome"
@@ -474,14 +476,13 @@ So the third change should be for us to add the variable-dependant variations of
 
 That takes care of the English language. As `unknown` is the default variation of `gender`, it needs no translation.
 
-
 Our fourth and final step is to make these same clauses for the other languages. The only thing to notice here is that the translation of the other languages should be made **from the translation of the phrase already into that language**. Thus `locale.json` will look like this:
 
 ```
 {
     en: {
         "gender": {
-            "male": { 
+            "male": {
                 "They": "He",
                 "look": "looks",
                 "beautiful": "handsome"
@@ -497,7 +498,7 @@ Our fourth and final step is to make these same clauses for the other languages.
         "They look beautiful tonight.": "Eles estão bonitos esta noite.",
 
         "gender": {
-            "male": { 
+            "male": {
                 "Eles": "Ele",
                 "estão": "está",
                 "bonitos": "belo"
@@ -513,7 +514,7 @@ Our fourth and final step is to make these same clauses for the other languages.
         "They look beautiful tonight.": "Ils sont magnifiques ce soir.",
 
         "gender": {
-            "male": { 
+            "male": {
                 "Ils": "Il",
                 "sont": "est",
                 "magnifiques": "beau"
@@ -558,7 +559,6 @@ That's it. Have a cookie 🍪
 - `string | null` **code**: a string representation of the current contents in the engine.
 
 - `void, void, void, void, void` **add, remove, change, toggleDevTools, setDevToolsCode**: functions that do exactly as their names suggest (first three refer to contexts in the engine). You should **DEFINITELY** not call any of these directly.
-
 
 # Opinative file/context disposition etc
 
