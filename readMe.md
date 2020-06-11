@@ -4,7 +4,7 @@ This module is a small localisation library written in TypeScript that I coded f
 
 It also comes with a handy set of DevTools that aid in the creation of these JSON localisation files, debugging the locale engine itself, and understanding how the engine interacts with your application.
 
-**Warning: this module is opinative with regards to stack. For now it needs, at least, styled-components to work. If you want to use the development tools, you'll also need styled-icons.**
+**Warning: for now, this needs styled-components to work.**
 
 # Installation
 
