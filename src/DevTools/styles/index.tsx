@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Globe } from "@styled-icons/octicons/Globe";
-import { Pin as PinIcon } from "@styled-icons/entypo/Pin";
 import "../assets/fonts";
 
 import { prefix } from "../DevTools";
@@ -63,22 +61,16 @@ export const Title = styled.h1.attrs(() => ({
 }))``;
 
 export const Logo = () => (
-  <Globe
+  <div
     data-testid={`${prefix}_logo`}
     style={{
       color: "white",
     }}
-    size={48}
   />
 );
 
 export const Pin = (props: any) => (
-  <PinIcon
-    data-testid={`${prefix}_pin`}
-    style={{ color: "white" }}
-    size={32}
-    {...props}
-  />
+  <div data-testid={`${prefix}_pin`} style={{ color: "white" }} {...props} />
 );
 
 export const Code = styled.pre`

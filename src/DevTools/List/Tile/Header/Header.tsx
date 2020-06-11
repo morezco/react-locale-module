@@ -17,7 +17,7 @@ export default function Header({
   data,
   open,
   index,
-  setCode
+  setCode,
 }: Props) {
   const print = useMemo(() => {
     let res: any = {};
@@ -42,7 +42,9 @@ export default function Header({
       <Code
         onClick={() => copy(JSON.stringify(print))}
         onDoubleClick={() => setCode(JSON.stringify(print, null, 4))}
-      />
+      >
+        {"{ }"}
+      </Code>
       <Title index={index}>{children}</Title>
     </Container>
   );

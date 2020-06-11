@@ -63,7 +63,7 @@ export default function Variable({
       <Header open={open} onClick={() => setOpen(!open)}>
         <Title onDoubleClick={() => setEditing(true)}>
           <Icon />
-          {name}:{" "}
+          <span>{name}: </span>
           {editing ? (
             <Input
               onChange={handler}

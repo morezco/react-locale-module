@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Memory } from "@styled-icons/material/Memory";
-import { Equals } from "@styled-icons/typicons/Equals";
 
 interface Props {
   open: boolean;
@@ -43,7 +41,14 @@ export const Header = styled.header<Props>`
 
   height: 50px;
 
-  padding: 0 ${({ open }) => (open ? "40px" : "0px")};
+  font: 0.8em bold Helvetica;
+
+  padding: 0 ${({ open }) => (open ? "40px" : "10px")};
+
+  span {
+    opacity: 0.75;
+    margin: 0px 10px 0px 0px;
+  }
 
   position: sticky;
   top: 0px;
@@ -64,9 +69,9 @@ export const Body = styled.div`
   }
 `;
 
-export const Icon = () => <Memory size={24} />;
+export const Icon = () => <div />;
 
-export const Equal = () => <Equals size={16} />;
+export const Equal = () => <div />;
 
 export const Title = styled.h1`
   margin: 0 5px;
