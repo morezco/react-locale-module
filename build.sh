@@ -1,5 +1,5 @@
 package=${PWD##*/}
-REACT_MODULES=#PATH TO REACT MODULES DIRECTORY
+# REACT_MODULES=$REACT_MODULES
 
 
 if [ -f ./wait ]; then
