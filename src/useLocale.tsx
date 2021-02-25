@@ -10,8 +10,8 @@ import {
 import TextComponent from "./Text/Text";
 
 export function useLocale(
-  context: string,
-  dictionary: Dictionary,
+  context?: string,
+  dictionary?: Dictionary,
   data?: any
 ): UseLocaleReturn {
   const {
@@ -31,19 +31,24 @@ export function useLocale(
   } = useContext(Locale);
 
   useEffect(() => {
-    if (!contexts[context]) add(context)(context, dictionary, data);
+    if (context && dictionary && !contexts[context])
+      add(context)(context, dictionary, data);
   });
 
   const t = useCallback(
     (original: string) => {
-      return (contexts?.[context]?.[language]?.[original] ||
-        original) as ContextDependantString;
+      return !context || !dictionary
+        ? null
+        : ((contexts?.[context]?.[language]?.[original] ||
+            original) as ContextDependantString);
     },
     [contexts, context, language]
   );
 
   const l = useCallback(
     (original: string, check?: string) => {
+      if (!context || !dictionary) return null;
+
       let translationObject = contexts[context]?.[language]
         ? Object.values(contexts[context]?.[language])?.find(
             (x: any) => x.value === original
@@ -61,7 +66,7 @@ export function useLocale(
             ? translationObject?.highlight
             : false;
 
-        return (
+        return !context ? null : (
           <TextComponent editing={devTools && !!highlighted}>
             {String(translation)}
           </TextComponent>
@@ -106,6 +111,8 @@ export function useLocale(
 
   const Text = useCallback(
     ({ children, ...props }: { children: string; [x: string]: string }) => {
+      if (!context || !dictionary) return null;
+
       let val: any = children;
 
       if (val.join) {

@@ -4,11 +4,11 @@ import { Container, Overlay, Content } from "./styles";
 
 interface Props {
   editing: boolean;
-  children: string;
+  children?: string;
 }
 
 export default function Text({ editing, children }: Props) {
-  return (
+  return !children ? null : (
     <Container>
       {editing && <Overlay />}
       <Content
